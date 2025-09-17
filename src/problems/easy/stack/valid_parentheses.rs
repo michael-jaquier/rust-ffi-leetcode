@@ -110,3 +110,81 @@ pub extern "C" fn min_remove_to_make_valid(s: *const u8, s_size: i32) -> i32 {
     // Placeholder
     0
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_valid_parentheses_basic() {
+        assert_eq!(is_valid_parentheses(b"()".as_ptr(), 2), true);
+        assert_eq!(is_valid_parentheses(b"()[]{}".as_ptr(), 6), true);
+        assert_eq!(is_valid_parentheses(b"(]".as_ptr(), 2), false);
+        assert_eq!(is_valid_parentheses(b"([)]".as_ptr(), 4), false);
+        assert_eq!(is_valid_parentheses(b"{[]}".as_ptr(), 4), true);
+    }
+
+    #[test]
+    fn test_valid_parentheses_single_type() {
+        assert_eq!(is_valid_parentheses(b"((()))".as_ptr(), 6), true);
+        assert_eq!(is_valid_parentheses(b"[[[]]]".as_ptr(), 6), true);
+        assert_eq!(is_valid_parentheses(b"{{{}}}".as_ptr(), 6), true);
+    }
+
+    #[test]
+    fn test_valid_parentheses_unmatched() {
+        assert_eq!(is_valid_parentheses(b"(".as_ptr(), 1), false);
+        assert_eq!(is_valid_parentheses(b")".as_ptr(), 1), false);
+        assert_eq!(is_valid_parentheses(b"(()".as_ptr(), 3), false);
+        assert_eq!(is_valid_parentheses(b"())".as_ptr(), 3), false);
+    }
+
+    #[test]
+    fn test_valid_parentheses_mixed_invalid() {
+        assert_eq!(is_valid_parentheses(b"([{}])".as_ptr(), 6), true);
+        assert_eq!(is_valid_parentheses(b"([{]})".as_ptr(), 6), false);
+        assert_eq!(is_valid_parentheses(b"{[(])}".as_ptr(), 6), false);
+    }
+
+    #[test]
+    fn test_valid_parentheses_edge_cases() {
+        // Empty string is valid
+        assert_eq!(is_valid_parentheses(b"".as_ptr(), 0), true);
+
+        // Null pointer
+        assert_eq!(is_valid_parentheses(std::ptr::null(), 0), true);
+
+        // Single brackets
+        assert_eq!(is_valid_parentheses(b"[".as_ptr(), 1), false);
+        assert_eq!(is_valid_parentheses(b"]".as_ptr(), 1), false);
+        assert_eq!(is_valid_parentheses(b"{".as_ptr(), 1), false);
+        assert_eq!(is_valid_parentheses(b"}".as_ptr(), 1), false);
+    }
+
+    #[test]
+    fn test_valid_parentheses_long_sequences() {
+        // Deeply nested
+        assert_eq!(is_valid_parentheses(b"(((())))".as_ptr(), 8), true);
+        assert_eq!(is_valid_parentheses(b"((((())".as_ptr(), 7), false);
+
+        // Mixed long sequence
+        assert_eq!(is_valid_parentheses(b"({[()]})".as_ptr(), 8), true);
+        assert_eq!(is_valid_parentheses(b"({[()]}))".as_ptr(), 9), false);
+    }
+
+    #[test]
+    fn test_min_remove_to_make_valid_basic() {
+        assert_eq!(min_remove_to_make_valid(b"()())()".as_ptr(), 7), 1);
+        assert_eq!(min_remove_to_make_valid(b"((((((".as_ptr(), 6), 6);
+        assert_eq!(min_remove_to_make_valid(b")))))))".as_ptr(), 7), 7);
+        assert_eq!(min_remove_to_make_valid(b"()".as_ptr(), 2), 0);
+    }
+
+    #[test]
+    fn test_min_remove_edge_cases() {
+        assert_eq!(min_remove_to_make_valid(b"".as_ptr(), 0), 0);
+        assert_eq!(min_remove_to_make_valid(std::ptr::null(), 0), 0);
+        assert_eq!(min_remove_to_make_valid(b"(".as_ptr(), 1), 1);
+        assert_eq!(min_remove_to_make_valid(b")".as_ptr(), 1), 1);
+    }
+}

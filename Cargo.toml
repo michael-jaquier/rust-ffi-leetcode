@@ -1,10 +1,11 @@
 [package]
-name = "ffi-leetcode"
+name = "ffi_leetcode"
 version = "0.1.0"
 edition = "2021"
 
 [lib]
-crate-type = ["cdylib", "staticlib"]
+name = "ffi_leetcode"
+crate-type = ["cdylib", "staticlib", "rlib"]
 
 [dependencies]
 libc = "0.2"

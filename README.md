@@ -9,22 +9,39 @@ ffi_leetcode/
 ├── src/
 │   ├── lib.rs              # Main library and FFI exports
 │   ├── data_structures.rs  # C-compatible data structures
-│   └── problems/           # Individual problem implementations
+│   └── problems/           # Problems organized by difficulty and algorithm
 │       ├── mod.rs
-│       ├── two_sum.rs           # Hash map pattern
-│       ├── reverse_string.rs    # Two pointers pattern
-│       ├── valid_parentheses.rs # Stack pattern
-│       ├── max_subarray.rs      # Dynamic programming pattern
-│       ├── binary_search.rs     # Divide and conquer pattern
-│       ├── merge_intervals.rs   # Sorting + greedy pattern
-│       ├── add_two_numbers.rs   # Linked list manipulation
-│       ├── course_schedule.rs   # Graph algorithms pattern
-│       ├── longest_substring.rs # Sliding window pattern
-│       ├── max_area.rs          # Two pointers optimization
-│       ├── lru_cache.rs         # Hash map + LRU pattern
-│       ├── group_anagrams.rs    # HashMap + sorting pattern
-│       ├── level_order.rs       # BFS traversal pattern
-│       └── meeting_rooms.rs     # Interval scheduling pattern
+│       ├── easy/
+│       │   ├── hash_map/
+│       │   │   └── two_sum.rs           # Hash map for O(1) lookups
+│       │   ├── two_pointers/
+│       │   │   └── reverse_string.rs    # Two pointers technique
+│       │   ├── stack/
+│       │   │   └── valid_parentheses.rs # Stack for matching pairs
+│       │   ├── binary_search/
+│       │   │   └── binary_search.rs     # Divide and conquer
+│       │   └── dynamic_programming/
+│       │       └── max_subarray.rs      # Kadane's algorithm
+│       ├── medium/
+│       │   ├── linked_list/
+│       │   │   └── add_two_numbers.rs   # Linked list manipulation
+│       │   ├── sliding_window/
+│       │   │   └── longest_substring.rs # Sliding window technique
+│       │   ├── two_pointers/
+│       │   │   └── max_area.rs          # Two pointers optimization
+│       │   ├── intervals/
+│       │   │   └── merge_intervals.rs   # Sorting + greedy
+│       │   ├── hash_map/
+│       │   │   └── group_anagrams.rs    # HashMap + sorting
+│       │   ├── heap/
+│       │   │   └── meeting_rooms.rs     # Priority queue/heap
+│       │   └── graph_dfs/
+│       │       └── course_schedule.rs   # Graph cycle detection
+│       └── hard/
+│           ├── hash_map_linked_list/
+│           │   └── lru_cache.rs         # LRU cache implementation
+│           └── bfs_tree/
+│               └── level_order.rs       # BFS tree traversal
 ├── include/
 │   └── ffi_leetcode.h      # C header file
 ├── examples/
@@ -36,16 +53,27 @@ ffi_leetcode/
 
 ## Algorithm Patterns Covered
 
-### Core Patterns with Learning Focus:
-1. **Hash Map for O(1) Lookups** - Two Sum, LRU Cache
-2. **Two Pointers Technique** - Reverse String, Container With Most Water
-3. **Stack for Matching Pairs** - Valid Parentheses
-4. **Dynamic Programming** - Maximum Subarray (Kadane's Algorithm)
-5. **Binary Search / Divide & Conquer** - Binary Search, Search Insert Position
-6. **Interval Problems** - Merge Intervals, Meeting Rooms
-7. **Graph Algorithms** - Course Schedule (Topological Sort)
-8. **Sliding Window** - Longest Substring Without Repeating Characters
-9. **Tree Traversal** - Binary Tree Level Order Traversal
+### Problems Organized by Difficulty and Algorithm:
+
+**EASY (5 problems)**:
+- **Hash Map**: Two Sum - O(1) lookups and complements
+- **Two Pointers**: Reverse String - In-place array manipulation
+- **Stack**: Valid Parentheses - LIFO matching patterns
+- **Binary Search**: Binary Search - Divide and conquer on sorted arrays
+- **Dynamic Programming**: Maximum Subarray - Kadane's algorithm
+
+**MEDIUM (7 problems)**:
+- **Linked List**: Add Two Numbers - Pointer manipulation with carry
+- **Sliding Window**: Longest Substring - Variable window optimization
+- **Two Pointers**: Container With Most Water - Optimization technique
+- **Intervals**: Merge Intervals - Sorting + greedy merging
+- **Hash Map**: Group Anagrams - Frequency counting and grouping
+- **Heap**: Meeting Rooms II - Priority queue scheduling
+- **Graph/DFS**: Course Schedule - Cycle detection and topological sort
+
+**HARD (2 problems)**:
+- **Hash Map + Linked List**: LRU Cache - Combined data structure design
+- **BFS/Tree**: Binary Tree Level Order - Breadth-first tree traversal
 
 ### Educational Features:
 - **Translation Strategy**: How to convert English problem descriptions to algorithmic thinking

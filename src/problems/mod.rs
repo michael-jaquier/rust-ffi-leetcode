@@ -1,26 +1,103 @@
-pub mod add_two_numbers;
-pub mod course_schedule;
-pub mod group_anagrams;
-pub mod level_order;
-pub mod longest_substring;
-pub mod lru_cache;
-pub mod max_area;
-pub mod max_subarray;
-pub mod meeting_rooms;
-pub mod reverse_string;
-pub mod two_sum;
-pub mod valid_parentheses;
+// Easy Problems
+pub mod easy {
+    pub mod hash_map {
+        pub mod two_sum;
+        pub use two_sum::*;
+    }
 
-// Re-export all the FFI functions
-pub use add_two_numbers::*;
-pub use course_schedule::*;
-pub use group_anagrams::*;
-pub use level_order::*;
-pub use longest_substring::*;
-pub use lru_cache::*;
-pub use max_area::*;
-pub use max_subarray::*;
-pub use meeting_rooms::*;
-pub use reverse_string::*;
-pub use two_sum::*;
-pub use valid_parentheses::*;
+    pub mod two_pointers {
+        pub mod reverse_string;
+        pub use reverse_string::*;
+    }
+
+    pub mod stack {
+        pub mod valid_parentheses;
+        pub use valid_parentheses::*;
+    }
+
+    pub mod binary_search {
+        pub mod binary_search;
+        pub use binary_search::*;
+    }
+
+    pub mod dynamic_programming {
+        pub mod max_subarray;
+        pub use max_subarray::*;
+    }
+
+    // Re-export all easy problems
+    pub use hash_map::*;
+    pub use two_pointers::*;
+    pub use stack::*;
+    pub use binary_search::*;
+    pub use dynamic_programming::*;
+}
+
+// Medium Problems
+pub mod medium {
+    pub mod linked_list {
+        pub mod add_two_numbers;
+        pub use add_two_numbers::*;
+    }
+
+    pub mod sliding_window {
+        pub mod longest_substring;
+        pub use longest_substring::*;
+    }
+
+    pub mod two_pointers {
+        pub mod max_area;
+        pub use max_area::*;
+    }
+
+    pub mod intervals {
+        pub mod merge_intervals;
+        pub use merge_intervals::*;
+    }
+
+    pub mod hash_map {
+        pub mod group_anagrams;
+        pub use group_anagrams::*;
+    }
+
+    pub mod heap {
+        pub mod meeting_rooms;
+        pub use meeting_rooms::*;
+    }
+
+    pub mod graph_dfs {
+        pub mod course_schedule;
+        pub use course_schedule::*;
+    }
+
+    // Re-export all medium problems
+    pub use linked_list::*;
+    pub use sliding_window::*;
+    pub use two_pointers::*;
+    pub use intervals::*;
+    pub use hash_map::*;
+    pub use heap::*;
+    pub use graph_dfs::*;
+}
+
+// Hard Problems
+pub mod hard {
+    pub mod hash_map_linked_list {
+        pub mod lru_cache;
+        pub use lru_cache::*;
+    }
+
+    pub mod bfs_tree {
+        pub mod level_order;
+        pub use level_order::*;
+    }
+
+    // Re-export all hard problems
+    pub use hash_map_linked_list::*;
+    pub use bfs_tree::*;
+}
+
+// Re-export all problems at the top level for backward compatibility
+pub use easy::*;
+pub use medium::*;
+pub use hard::*;

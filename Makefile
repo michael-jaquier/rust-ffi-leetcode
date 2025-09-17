@@ -56,3 +56,54 @@ watch:
 profile-c:
 	cargo build --example c_client
 	valgrind --tool=memcheck --leak-check=full ./target/debug/examples/c_client
+
+# Individual problem test targets
+test-two-sum:
+	cargo test two_sum
+
+test-reverse-string:
+	cargo test reverse_string
+
+test-valid-parentheses:
+	cargo test valid_parentheses
+
+test-max-subarray:
+	cargo test max_subarray
+
+test-binary-search:
+	cargo test binary_search
+
+test-merge-intervals:
+	cargo test merge_intervals
+
+test-add-two-numbers:
+	cargo test add_two_numbers
+
+test-course-schedule:
+	cargo test course_schedule
+
+test-lru-cache:
+	cargo test lru_cache
+
+test-max-area:
+	cargo test max_area
+
+test-longest-substring:
+	cargo test longest_substring
+
+test-group-anagrams:
+	cargo test group_anagrams
+
+test-level-order:
+	cargo test level_order
+
+test-meeting-rooms:
+	cargo test meeting_rooms
+
+# Test all new problems
+test-new-problems:
+	cargo test two_sum reverse_string valid_parentheses max_subarray binary_search merge_intervals
+
+# Test all existing problems
+test-existing-problems:
+	cargo test add_two_numbers course_schedule lru_cache max_area longest_substring group_anagrams level_order meeting_rooms

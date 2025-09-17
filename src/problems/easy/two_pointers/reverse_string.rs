@@ -84,3 +84,89 @@ pub extern "C" fn is_palindrome(s: *const u8, s_size: i32) -> bool {
     // Placeholder
     false
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_reverse_string_basic() {
+        let mut s = b"hello".to_vec();
+        reverse_string(s.as_mut_ptr(), s.len() as i32);
+        assert_eq!(&s, b"olleh");
+    }
+
+    #[test]
+    fn test_reverse_string_even_length() {
+        let mut s = b"Hannah".to_vec();
+        reverse_string(s.as_mut_ptr(), s.len() as i32);
+        assert_eq!(&s, b"hannaH");
+    }
+
+    #[test]
+    fn test_reverse_string_single_char() {
+        let mut s = b"A".to_vec();
+        reverse_string(s.as_mut_ptr(), s.len() as i32);
+        assert_eq!(&s, b"A");
+    }
+
+    #[test]
+    fn test_reverse_string_two_chars() {
+        let mut s = b"ab".to_vec();
+        reverse_string(s.as_mut_ptr(), s.len() as i32);
+        assert_eq!(&s, b"ba");
+    }
+
+    #[test]
+    fn test_reverse_string_empty() {
+        let mut s = b"".to_vec();
+        reverse_string(s.as_mut_ptr(), s.len() as i32);
+        assert_eq!(&s, b"");
+    }
+
+    #[test]
+    fn test_reverse_string_palindrome() {
+        let mut s = b"racecar".to_vec();
+        reverse_string(s.as_mut_ptr(), s.len() as i32);
+        assert_eq!(&s, b"racecar");
+    }
+
+    #[test]
+    fn test_is_palindrome_basic() {
+        assert_eq!(is_palindrome(b"racecar".as_ptr(), 7), true);
+        assert_eq!(is_palindrome(b"race a car".as_ptr(), 10), false);
+        assert_eq!(is_palindrome(b"hello".as_ptr(), 5), false);
+    }
+
+    #[test]
+    fn test_is_palindrome_single_char() {
+        assert_eq!(is_palindrome(b"a".as_ptr(), 1), true);
+    }
+
+    #[test]
+    fn test_is_palindrome_empty() {
+        assert_eq!(is_palindrome(b"".as_ptr(), 0), true);
+    }
+
+    #[test]
+    fn test_is_palindrome_even_length() {
+        assert_eq!(is_palindrome(b"abba".as_ptr(), 4), true);
+        assert_eq!(is_palindrome(b"abcd".as_ptr(), 4), false);
+    }
+
+    #[test]
+    fn test_edge_cases() {
+        // Null pointer should not crash
+        reverse_string(std::ptr::null_mut(), 0);
+
+        // Zero length
+        let mut s = b"test".to_vec();
+        reverse_string(s.as_mut_ptr(), 0);
+        assert_eq!(&s, b"test"); // Should be unchanged
+
+        // Negative length (treated as <= 1)
+        let mut s = b"test".to_vec();
+        reverse_string(s.as_mut_ptr(), -1);
+        assert_eq!(&s, b"test"); // Should be unchanged
+    }
+}

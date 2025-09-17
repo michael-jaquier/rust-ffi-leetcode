@@ -113,3 +113,114 @@ pub extern "C" fn max_subarray_indices(
     }
     0
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_max_subarray_basic() {
+        let nums = vec![-2, 1, -3, 4, -1, 2, 1, -5, 4];
+        let result = max_subarray(nums.as_ptr(), nums.len() as i32);
+        assert_eq!(result, 6); // [4, -1, 2, 1]
+    }
+
+    #[test]
+    fn test_max_subarray_single_element() {
+        let nums = vec![1];
+        let result = max_subarray(nums.as_ptr(), nums.len() as i32);
+        assert_eq!(result, 1);
+
+        let nums = vec![-1];
+        let result = max_subarray(nums.as_ptr(), nums.len() as i32);
+        assert_eq!(result, -1);
+    }
+
+    #[test]
+    fn test_max_subarray_all_positive() {
+        let nums = vec![5, 4, -1, 7, 8];
+        let result = max_subarray(nums.as_ptr(), nums.len() as i32);
+        assert_eq!(result, 23); // Entire array
+    }
+
+    #[test]
+    fn test_max_subarray_all_negative() {
+        let nums = vec![-3, -5, -1, -7];
+        let result = max_subarray(nums.as_ptr(), nums.len() as i32);
+        assert_eq!(result, -1); // Largest single element
+    }
+
+    #[test]
+    fn test_max_subarray_mixed() {
+        let nums = vec![1, 2, -1, -2, 2, 1, -2, 1];
+        let result = max_subarray(nums.as_ptr(), nums.len() as i32);
+        assert_eq!(result, 3); // [1, 2] or [2, 1]
+    }
+
+    #[test]
+    fn test_max_subarray_alternating() {
+        let nums = vec![-2, 1, -2, 1, -2, 1];
+        let result = max_subarray(nums.as_ptr(), nums.len() as i32);
+        assert_eq!(result, 1); // Any single 1
+    }
+
+    #[test]
+    fn test_max_subarray_edge_cases() {
+        // Empty array
+        let result = max_subarray(std::ptr::null(), 0);
+        assert_eq!(result, 0);
+
+        // Null pointer
+        let nums = vec![];
+        let result = max_subarray(nums.as_ptr(), 0);
+        assert_eq!(result, 0);
+    }
+
+    #[test]
+    fn test_max_subarray_large_numbers() {
+        let nums = vec![1000, -1, 1000, -1, 1000];
+        let result = max_subarray(nums.as_ptr(), nums.len() as i32);
+        assert_eq!(result, 2998); // [1000, -1, 1000, -1, 1000]
+    }
+
+    #[test]
+    fn test_max_subarray_indices_basic() {
+        let nums = vec![-2, 1, -3, 4, -1, 2, 1, -5, 4];
+        let mut start = 0i32;
+        let mut end = 0i32;
+
+        let result = max_subarray_indices(nums.as_ptr(), nums.len() as i32, &mut start, &mut end);
+        assert_eq!(result, 6);
+
+        // Verify the subarray [start..=end] has the maximum sum
+        let subarray_sum: i32 = nums[(start as usize)..=(end as usize)].iter().sum();
+        assert_eq!(subarray_sum, 6);
+    }
+
+    #[test]
+    fn test_max_subarray_indices_single() {
+        let nums = vec![5];
+        let mut start = 0i32;
+        let mut end = 0i32;
+
+        let result = max_subarray_indices(nums.as_ptr(), nums.len() as i32, &mut start, &mut end);
+        assert_eq!(result, 5);
+        assert_eq!(start, 0);
+        assert_eq!(end, 0);
+    }
+
+    #[test]
+    fn test_max_subarray_indices_edge_cases() {
+        let mut start = 0i32;
+        let mut end = 0i32;
+
+        // Null pointer
+        let result = max_subarray_indices(std::ptr::null(), 0, &mut start, &mut end);
+        assert_eq!(result, 0);
+
+        // Empty array
+        let nums = vec![];
+        let result = max_subarray_indices(nums.as_ptr(), 0, &mut start, &mut end);
+        assert_eq!(result, 0);
+    }
+}

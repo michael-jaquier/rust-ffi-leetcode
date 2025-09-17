@@ -104,3 +104,102 @@ pub extern "C" fn search_insert(nums: *const i32, nums_size: i32, target: i32) -
     // Placeholder
     0
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_binary_search_found() {
+        let nums = vec![-1, 0, 3, 5, 9, 12];
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 9), 4);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, -1), 0);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 12), 5);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 3), 2);
+    }
+
+    #[test]
+    fn test_binary_search_not_found() {
+        let nums = vec![-1, 0, 3, 5, 9, 12];
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 2), -1);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 13), -1);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, -2), -1);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 7), -1);
+    }
+
+    #[test]
+    fn test_binary_search_single_element() {
+        let nums = vec![5];
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 5), 0);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 4), -1);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 6), -1);
+    }
+
+    #[test]
+    fn test_binary_search_two_elements() {
+        let nums = vec![1, 3];
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 1), 0);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 3), 1);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 2), -1);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 0), -1);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 4), -1);
+    }
+
+    #[test]
+    fn test_binary_search_duplicates() {
+        // Note: problem states all integers are unique, but testing edge case
+        let nums = vec![1, 2, 2, 2, 3];
+        let result = binary_search(nums.as_ptr(), nums.len() as i32, 2);
+        // Should find one of the indices containing 2
+        assert!(result >= 1 && result <= 3);
+        assert_eq!(nums[result as usize], 2);
+    }
+
+    #[test]
+    fn test_binary_search_edge_cases() {
+        // Empty array
+        assert_eq!(binary_search(std::ptr::null(), 0, 5), -1);
+
+        // Null pointer
+        let nums = vec![];
+        assert_eq!(binary_search(nums.as_ptr(), 0, 5), -1);
+    }
+
+    #[test]
+    fn test_binary_search_large_array() {
+        let nums: Vec<i32> = (0..10000).collect();
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 5000), 5000);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 0), 0);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 9999), 9999);
+        assert_eq!(binary_search(nums.as_ptr(), nums.len() as i32, 10000), -1);
+    }
+
+    #[test]
+    fn test_search_insert_basic() {
+        let nums = vec![1, 3, 5, 6];
+        assert_eq!(search_insert(nums.as_ptr(), nums.len() as i32, 5), 2);
+        assert_eq!(search_insert(nums.as_ptr(), nums.len() as i32, 2), 1);
+        assert_eq!(search_insert(nums.as_ptr(), nums.len() as i32, 7), 4);
+        assert_eq!(search_insert(nums.as_ptr(), nums.len() as i32, 0), 0);
+    }
+
+    #[test]
+    fn test_search_insert_exact_match() {
+        let nums = vec![1, 3, 5, 6];
+        assert_eq!(search_insert(nums.as_ptr(), nums.len() as i32, 1), 0);
+        assert_eq!(search_insert(nums.as_ptr(), nums.len() as i32, 3), 1);
+        assert_eq!(search_insert(nums.as_ptr(), nums.len() as i32, 6), 3);
+    }
+
+    #[test]
+    fn test_search_insert_edge_cases() {
+        // Empty array
+        assert_eq!(search_insert(std::ptr::null(), 0, 5), 0);
+
+        // Single element
+        let nums = vec![1];
+        assert_eq!(search_insert(nums.as_ptr(), nums.len() as i32, 0), 0);
+        assert_eq!(search_insert(nums.as_ptr(), nums.len() as i32, 1), 0);
+        assert_eq!(search_insert(nums.as_ptr(), nums.len() as i32, 2), 1);
+    }
+}

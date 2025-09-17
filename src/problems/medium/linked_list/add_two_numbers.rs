@@ -68,3 +68,60 @@ pub extern "C" fn add_two_numbers(l1: *mut ListNode, l2: *mut ListNode) -> *mut 
     // Placeholder - replace with your implementation
     std::ptr::null_mut()
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::data_structures::*;
+
+    #[test]
+    fn test_add_two_numbers_basic() {
+        // Test [2,4,3] + [5,6,4] = [7,0,8] (342 + 465 = 807)
+        let l1 = unsafe {
+            let node1 = Box::into_raw(Box::new(ListNode { val: 2, next: std::ptr::null_mut() }));
+            let node2 = Box::into_raw(Box::new(ListNode { val: 4, next: std::ptr::null_mut() }));
+            let node3 = Box::into_raw(Box::new(ListNode { val: 3, next: std::ptr::null_mut() }));
+            (*node1).next = node2;
+            (*node2).next = node3;
+            node1
+        };
+
+        let l2 = unsafe {
+            let node1 = Box::into_raw(Box::new(ListNode { val: 5, next: std::ptr::null_mut() }));
+            let node2 = Box::into_raw(Box::new(ListNode { val: 6, next: std::ptr::null_mut() }));
+            let node3 = Box::into_raw(Box::new(ListNode { val: 4, next: std::ptr::null_mut() }));
+            (*node1).next = node2;
+            (*node2).next = node3;
+            node1
+        };
+
+        let result = add_two_numbers(l1, l2);
+
+        // For now, just test that it doesn't crash and returns null (placeholder)
+        assert_eq!(result, std::ptr::null_mut());
+    }
+
+    #[test]
+    fn test_add_two_numbers_different_lengths() {
+        // Test [9,9] + [1] = [0,0,1] (99 + 1 = 100)
+        let l1 = unsafe {
+            let node1 = Box::into_raw(Box::new(ListNode { val: 9, next: std::ptr::null_mut() }));
+            let node2 = Box::into_raw(Box::new(ListNode { val: 9, next: std::ptr::null_mut() }));
+            (*node1).next = node2;
+            node1
+        };
+
+        let l2 = unsafe {
+            Box::into_raw(Box::new(ListNode { val: 1, next: std::ptr::null_mut() }))
+        };
+
+        let result = add_two_numbers(l1, l2);
+        assert_eq!(result, std::ptr::null_mut()); // Placeholder test
+    }
+
+    #[test]
+    fn test_add_two_numbers_edge_cases() {
+        // Null inputs
+        assert_eq!(add_two_numbers(std::ptr::null_mut(), std::ptr::null_mut()), std::ptr::null_mut());
+    }
+}

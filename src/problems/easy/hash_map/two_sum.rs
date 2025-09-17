@@ -74,3 +74,93 @@ pub extern "C" fn two_sum(nums: *const i32, nums_size: i32, target: i32, result:
     // Placeholder - replace with your implementation
     false
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::collections::HashMap;
+
+    #[test]
+    fn test_two_sum_basic() {
+        let nums = vec![2, 7, 11, 15];
+        let target = 9;
+        let mut result = [0i32, 0i32];
+
+        let found = two_sum(nums.as_ptr(), nums.len() as i32, target, result.as_mut_ptr());
+
+        assert!(found);
+        // Should return indices 0 and 1
+        assert!((result[0] == 0 && result[1] == 1) || (result[0] == 1 && result[1] == 0));
+        assert_eq!(nums[result[0] as usize] + nums[result[1] as usize], target);
+    }
+
+    #[test]
+    fn test_two_sum_different_positions() {
+        let nums = vec![3, 2, 4];
+        let target = 6;
+        let mut result = [0i32, 0i32];
+
+        let found = two_sum(nums.as_ptr(), nums.len() as i32, target, result.as_mut_ptr());
+
+        assert!(found);
+        // Should return indices 1 and 2
+        assert!((result[0] == 1 && result[1] == 2) || (result[0] == 2 && result[1] == 1));
+        assert_eq!(nums[result[0] as usize] + nums[result[1] as usize], target);
+    }
+
+    #[test]
+    fn test_two_sum_same_value() {
+        let nums = vec![3, 3];
+        let target = 6;
+        let mut result = [0i32, 0i32];
+
+        let found = two_sum(nums.as_ptr(), nums.len() as i32, target, result.as_mut_ptr());
+
+        assert!(found);
+        // Should return indices 0 and 1
+        assert!((result[0] == 0 && result[1] == 1) || (result[0] == 1 && result[1] == 0));
+        assert_eq!(nums[result[0] as usize] + nums[result[1] as usize], target);
+    }
+
+    #[test]
+    fn test_two_sum_negative_numbers() {
+        let nums = vec![-1, -2, -3, -4, -5];
+        let target = -8;
+        let mut result = [0i32, 0i32];
+
+        let found = two_sum(nums.as_ptr(), nums.len() as i32, target, result.as_mut_ptr());
+
+        assert!(found);
+        assert_eq!(nums[result[0] as usize] + nums[result[1] as usize], target);
+    }
+
+    #[test]
+    fn test_two_sum_no_solution() {
+        let nums = vec![1, 2, 3, 4];
+        let target = 10;
+        let mut result = [0i32, 0i32];
+
+        let found = two_sum(nums.as_ptr(), nums.len() as i32, target, result.as_mut_ptr());
+
+        assert!(!found);
+    }
+
+    #[test]
+    fn test_two_sum_edge_cases() {
+        let mut result = [0i32, 0i32];
+
+        // Null pointer
+        let found = two_sum(std::ptr::null(), 0, 0, result.as_mut_ptr());
+        assert!(!found);
+
+        // Empty array
+        let nums = vec![];
+        let found = two_sum(nums.as_ptr(), 0, 5, result.as_mut_ptr());
+        assert!(!found);
+
+        // Single element
+        let nums = vec![1];
+        let found = two_sum(nums.as_ptr(), 1, 2, result.as_mut_ptr());
+        assert!(!found);
+    }
+}

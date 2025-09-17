@@ -13,7 +13,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "ffi-leetcode"
+name = "ffi_leetcode"
 version = "0.1.0"
 dependencies = [
  "cc",

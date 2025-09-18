@@ -50,6 +50,20 @@ pub extern "C" fn reverse_string(s: *mut u8, s_size: i32) {
 
     let s_slice = unsafe { std::slice::from_raw_parts_mut(s, s_size as usize) };
 
+    let range = s_slice.as_mut_ptr_range();
+    let mut left = range.start;
+    let mut right = unsafe { range.end.sub(1) };
+
+    while left < right {
+        unsafe {
+            let temp: u8 = *left;
+            *left = *right;
+            *right = temp;
+            left = left.add(1);
+            right = right.sub(1);
+        }
+    }
+
     // TODO: Implement the two pointers algorithm
     //
     // Your implementation should:
@@ -81,8 +95,21 @@ pub extern "C" fn is_palindrome(s: *const u8, s_size: i32) -> bool {
     // TODO: Implement palindrome check using two pointers
     // Same pattern as reverse_string but compare instead of swap
 
+    let mut left = s_slice.as_ptr();
+    let mut right = unsafe { left.add(s_size as usize - 1) };
+
+    while left < right {
+        unsafe {
+            if *left != *right {
+                return false;
+            }
+        }
+        left = unsafe { left.add(1) };
+        right = unsafe { right.sub(1) };
+    }
+
     // Placeholder
-    false
+    true
 }
 
 #[cfg(test)]

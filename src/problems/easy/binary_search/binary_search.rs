@@ -64,6 +64,37 @@ pub extern "C" fn binary_search(nums: *const i32, nums_size: i32, target: i32) -
 
     let nums_slice = unsafe { std::slice::from_raw_parts(nums, nums_size as usize) };
 
+    let mut lt = 0;
+    let mut rt = (nums_size / 2) as usize;
+
+    while rt != lt {
+        if nums_slice[rt as usize] == target {
+            return rt as i32;
+        }
+        if nums_slice[rt] > target {
+            rt /= 2;
+        } 
+        else {
+            lt = rt;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // TODO: Implement binary search algorithm
     //
     // Your implementation should:

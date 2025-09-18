@@ -1,3 +1,6 @@
+use core::panic;
+use std::{collections::HashMap, ptr::slice_from_raw_parts};
+
 /// Problem: Valid Parentheses
 ///
 /// Given a string s containing just the characters '(', ')', '{', '}', '[' and ']',
@@ -68,6 +71,18 @@ pub extern "C" fn is_valid_parentheses(s: *const u8, s_size: i32) -> bool {
     }
 
     let s_slice = unsafe { std::slice::from_raw_parts(s, s_size as usize) };
+    let mut stack = Vec::new();
+    for b in s_slice {
+        match b {
+            b'{' | b'[' | b'(' => stack.push(b),
+            b'}' => if stack.pop() != Some(&b'{'){ return false;},
+            b']' => if stack.pop() != Some(&b'[') { return false;},
+            b')' => if stack.pop() != Some(&b'(') { return false;},
+            _ => return false
+        }
+    }
+
+    stack.is_empty()
 
     // TODO: Implement the stack-based matching algorithm
     //
@@ -93,7 +108,6 @@ pub extern "C" fn is_valid_parentheses(s: *const u8, s_size: i32) -> bool {
     // - Stack: optimal for multiple bracket types
 
     // Placeholder - replace with your implementation
-    false
 }
 
 /// Bonus: Minimum parentheses to remove to make valid
@@ -103,12 +117,29 @@ pub extern "C" fn min_remove_to_make_valid(s: *const u8, s_size: i32) -> i32 {
     if s.is_null() || s_size == 0 {
         return 0;
     }
+    let s_slice = unsafe {std::slice::from_raw_parts(s, s_size as usize)};
+    let mut count = 0;
+    let mut stack = Vec::new();
+    let opens = b"{([";
+    let closes = b"})]";
+    let keys: HashMap<u8, u8> = opens.iter().zip(closes).map(|(a, b)| (*a, *b)).collect();
 
-    // TODO: Use stack to count unmatched brackets
-    // Hint: Track unmatched opening '(' and closing ')' separately
+    for paren in s_slice {
+        if opens.contains(paren) {
+            stack.push(paren);
+        } else {
+            if let Some(open) = stack.pop() {
+                let expected = keys.get(open).unwrap();
+                if expected != paren {
+                    count +=1;
+                }
+            } else { count +=1}
 
-    // Placeholder
-    0
+        }
+
+    }
+
+   (count + stack.len()) as i32
 }
 
 #[cfg(test)]

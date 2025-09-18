@@ -55,6 +55,61 @@ pub extern "C" fn two_sum(nums: *const i32, nums_size: i32, target: i32, result:
 
     let nums_slice = unsafe { std::slice::from_raw_parts(nums, nums_size as usize) };
 
+    let mut storage = HashMap::new();
+
+    for (idx,n) in nums_slice.iter().enumerate() {
+        let key = target - n;
+        let value= storage.get(&key);
+        if value.is_some() {
+            unsafe {
+                result.write(idx as i32);
+                let result = result.add(1);
+                result.write(*value.unwrap() as i32);
+            }
+            return true
+        }
+        storage.insert(n, idx);
+    }
+
+    return false
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+
     // TODO: Implement the hash map approach
     //
     // Your implementation should:
@@ -72,7 +127,6 @@ pub extern "C" fn two_sum(nums: *const i32, nums_size: i32, target: i32, result:
     // - Hash map: O(n) time, O(n) space - optimal for this problem
 
     // Placeholder - replace with your implementation
-    false
 }
 
 #[cfg(test)]
@@ -86,7 +140,12 @@ mod tests {
         let target = 9;
         let mut result = [0i32, 0i32];
 
-        let found = two_sum(nums.as_ptr(), nums.len() as i32, target, result.as_mut_ptr());
+        let found = two_sum(
+            nums.as_ptr(),
+            nums.len() as i32,
+            target,
+            result.as_mut_ptr(),
+        );
 
         assert!(found);
         // Should return indices 0 and 1
@@ -100,7 +159,12 @@ mod tests {
         let target = 6;
         let mut result = [0i32, 0i32];
 
-        let found = two_sum(nums.as_ptr(), nums.len() as i32, target, result.as_mut_ptr());
+        let found = two_sum(
+            nums.as_ptr(),
+            nums.len() as i32,
+            target,
+            result.as_mut_ptr(),
+        );
 
         assert!(found);
         // Should return indices 1 and 2
@@ -114,7 +178,12 @@ mod tests {
         let target = 6;
         let mut result = [0i32, 0i32];
 
-        let found = two_sum(nums.as_ptr(), nums.len() as i32, target, result.as_mut_ptr());
+        let found = two_sum(
+            nums.as_ptr(),
+            nums.len() as i32,
+            target,
+            result.as_mut_ptr(),
+        );
 
         assert!(found);
         // Should return indices 0 and 1
@@ -128,7 +197,12 @@ mod tests {
         let target = -8;
         let mut result = [0i32, 0i32];
 
-        let found = two_sum(nums.as_ptr(), nums.len() as i32, target, result.as_mut_ptr());
+        let found = two_sum(
+            nums.as_ptr(),
+            nums.len() as i32,
+            target,
+            result.as_mut_ptr(),
+        );
 
         assert!(found);
         assert_eq!(nums[result[0] as usize] + nums[result[1] as usize], target);
@@ -140,7 +214,12 @@ mod tests {
         let target = 10;
         let mut result = [0i32, 0i32];
 
-        let found = two_sum(nums.as_ptr(), nums.len() as i32, target, result.as_mut_ptr());
+        let found = two_sum(
+            nums.as_ptr(),
+            nums.len() as i32,
+            target,
+            result.as_mut_ptr(),
+        );
 
         assert!(!found);
     }

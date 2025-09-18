@@ -63,14 +63,17 @@ pub struct Interval {
 pub extern "C" fn merge_intervals(
     intervals: *mut Interval,
     intervals_size: i32,
-    result_size: *mut i32
+    result_size: *mut i32,
 ) -> *mut Interval {
     if intervals.is_null() || result_size.is_null() || intervals_size <= 0 {
-        unsafe { *result_size = 0; }
+        unsafe {
+            *result_size = 0;
+        }
         return std::ptr::null_mut();
     }
 
-    let intervals_slice = unsafe { std::slice::from_raw_parts_mut(intervals, intervals_size as usize) };
+    let intervals_slice =
+        unsafe { std::slice::from_raw_parts_mut(intervals, intervals_size as usize) };
 
     // TODO: Implement interval merging algorithm
     //
@@ -99,7 +102,9 @@ pub extern "C" fn merge_intervals(
     // - Union-Find: Overkill for this problem
 
     // Placeholder - replace with your implementation
-    unsafe { *result_size = 0; }
+    unsafe {
+        *result_size = 0;
+    }
     std::ptr::null_mut()
 }
 
@@ -109,17 +114,21 @@ pub extern "C" fn insert_interval(
     intervals: *const Interval,
     intervals_size: i32,
     new_interval: Interval,
-    result_size: *mut i32
+    result_size: *mut i32,
 ) -> *mut Interval {
     if intervals.is_null() || result_size.is_null() {
-        unsafe { *result_size = 0; }
+        unsafe {
+            *result_size = 0;
+        }
         return std::ptr::null_mut();
     }
 
     // TODO: Insert and merge new interval into existing sorted intervals
     // Hint: Add intervals before new_interval, merge overlapping ones, add remaining
 
-    unsafe { *result_size = 0; }
+    unsafe {
+        *result_size = 0;
+    }
     std::ptr::null_mut()
 }
 
@@ -137,7 +146,11 @@ mod tests {
         ];
         let mut result_size = 0i32;
 
-        let result = merge_intervals(intervals.as_mut_ptr(), intervals.len() as i32, &mut result_size);
+        let result = merge_intervals(
+            intervals.as_mut_ptr(),
+            intervals.len() as i32,
+            &mut result_size,
+        );
 
         // Expected: [[1,6],[8,10],[15,18]]
         assert_eq!(result_size, 3);
@@ -157,13 +170,14 @@ mod tests {
 
     #[test]
     fn test_merge_intervals_touching() {
-        let mut intervals = vec![
-            Interval { start: 1, end: 4 },
-            Interval { start: 4, end: 5 },
-        ];
+        let mut intervals = vec![Interval { start: 1, end: 4 }, Interval { start: 4, end: 5 }];
         let mut result_size = 0i32;
 
-        let result = merge_intervals(intervals.as_mut_ptr(), intervals.len() as i32, &mut result_size);
+        let result = merge_intervals(
+            intervals.as_mut_ptr(),
+            intervals.len() as i32,
+            &mut result_size,
+        );
 
         // Expected: [[1,5]] - touching intervals should merge
         assert_eq!(result_size, 1);
@@ -181,7 +195,11 @@ mod tests {
         let mut intervals = vec![Interval { start: 1, end: 4 }];
         let mut result_size = 0i32;
 
-        let result = merge_intervals(intervals.as_mut_ptr(), intervals.len() as i32, &mut result_size);
+        let result = merge_intervals(
+            intervals.as_mut_ptr(),
+            intervals.len() as i32,
+            &mut result_size,
+        );
 
         // Expected: [[1,4]]
         assert_eq!(result_size, 1);
@@ -203,7 +221,11 @@ mod tests {
         ];
         let mut result_size = 0i32;
 
-        let result = merge_intervals(intervals.as_mut_ptr(), intervals.len() as i32, &mut result_size);
+        let result = merge_intervals(
+            intervals.as_mut_ptr(),
+            intervals.len() as i32,
+            &mut result_size,
+        );
 
         // Expected: [[1,2],[3,4],[5,6]] - no merging
         assert_eq!(result_size, 3);
@@ -219,7 +241,11 @@ mod tests {
         ];
         let mut result_size = 0i32;
 
-        let result = merge_intervals(intervals.as_mut_ptr(), intervals.len() as i32, &mut result_size);
+        let result = merge_intervals(
+            intervals.as_mut_ptr(),
+            intervals.len() as i32,
+            &mut result_size,
+        );
 
         // Expected: [[1,8]] - all intervals should merge into one
         assert_eq!(result_size, 1);
@@ -249,14 +275,16 @@ mod tests {
 
     #[test]
     fn test_insert_interval_basic() {
-        let intervals = vec![
-            Interval { start: 1, end: 3 },
-            Interval { start: 6, end: 9 },
-        ];
+        let intervals = vec![Interval { start: 1, end: 3 }, Interval { start: 6, end: 9 }];
         let new_interval = Interval { start: 2, end: 5 };
         let mut result_size = 0i32;
 
-        let result = insert_interval(intervals.as_ptr(), intervals.len() as i32, new_interval, &mut result_size);
+        let result = insert_interval(
+            intervals.as_ptr(),
+            intervals.len() as i32,
+            new_interval,
+            &mut result_size,
+        );
 
         // Expected: [[1,5],[6,9]]
         assert_eq!(result_size, 2);
@@ -273,14 +301,16 @@ mod tests {
 
     #[test]
     fn test_insert_interval_no_overlap() {
-        let intervals = vec![
-            Interval { start: 1, end: 2 },
-            Interval { start: 4, end: 5 },
-        ];
+        let intervals = vec![Interval { start: 1, end: 2 }, Interval { start: 4, end: 5 }];
         let new_interval = Interval { start: 3, end: 3 };
         let mut result_size = 0i32;
 
-        let result = insert_interval(intervals.as_ptr(), intervals.len() as i32, new_interval, &mut result_size);
+        let result = insert_interval(
+            intervals.as_ptr(),
+            intervals.len() as i32,
+            new_interval,
+            &mut result_size,
+        );
 
         // Expected: [[1,2],[3,3],[4,5]]
         assert_eq!(result_size, 3);

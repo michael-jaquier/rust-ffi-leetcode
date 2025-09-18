@@ -1,3 +1,5 @@
+use std::collections::HashMap;
+
 /// Problem: Maximum Subarray (Kadane's Algorithm)
 ///
 /// Given an integer array nums, find the contiguous subarray (containing at least one number)
@@ -62,6 +64,17 @@ pub extern "C" fn max_subarray(nums: *const i32, nums_size: i32) -> i32 {
     }
 
     let nums_slice = unsafe { std::slice::from_raw_parts(nums, nums_size as usize) };
+    let mut local_max=nums_slice[0];
+    let mut global_max = nums_slice[0];
+    for v in nums_slice.iter().skip(1) {
+        let lmax = v+local_max;
+        local_max = lmax.max(*v); 
+        global_max = global_max.max(local_max);
+    }
+
+    return global_max
+
+
 
     // TODO: Implement Kadane's algorithm
     //
@@ -84,11 +97,7 @@ pub extern "C" fn max_subarray(nums: *const i32, nums_size: i32) -> i32 {
     // - Kadane's: O(n) optimal solution
 
     // Placeholder - replace with your implementation
-    if nums_size > 0 {
-        unsafe { *nums }  // Return first element as placeholder
-    } else {
-        0
-    }
+
 }
 
 /// Bonus: Return the actual subarray indices, not just the sum
@@ -97,7 +106,7 @@ pub extern "C" fn max_subarray_indices(
     nums: *const i32,
     nums_size: i32,
     start: *mut i32,
-    end: *mut i32
+    end: *mut i32,
 ) -> i32 {
     if nums.is_null() || start.is_null() || end.is_null() || nums_size == 0 {
         return 0;
@@ -106,12 +115,34 @@ pub extern "C" fn max_subarray_indices(
     // TODO: Modify Kadane's to also track the start and end indices
     // Hint: Reset start index when starting a new subarray
 
-    // Placeholder
+    let num_slice = unsafe { std::slice::from_raw_parts(nums, nums_size as usize) };
+
+    let mut best_so_far = num_slice[0];
+    let mut best_overall= num_slice[0];
+
     unsafe {
         *start = 0;
         *end = 0;
     }
-    0
+
+    let mut m = false;
+    for (index, v) in num_slice.iter().enumerate().skip(1) {
+        let v = *v;
+        if v >= best_so_far {
+            m = true;
+        }
+        best_so_far = v.max(v+best_so_far);
+        if best_so_far >= best_overall {
+            unsafe  {*end = index as i32}
+            if m {
+                unsafe { *start = index as i32}
+            }
+        }
+        best_overall = best_overall.max(best_so_far);
+    }
+
+    best_overall
+
 }
 
 #[cfg(test)]

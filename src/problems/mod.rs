@@ -26,11 +26,11 @@ pub mod easy {
     }
 
     // Re-export all easy problems
-    pub use hash_map::*;
-    pub use two_pointers::*;
-    pub use stack::*;
     pub use binary_search::*;
     pub use dynamic_programming::*;
+    pub use hash_map::*;
+    pub use stack::*;
+    pub use two_pointers::*;
 }
 
 // Medium Problems
@@ -42,7 +42,9 @@ pub mod medium {
 
     pub mod sliding_window {
         pub mod longest_substring;
+        pub mod rate_limiter;
         pub use longest_substring::*;
+        pub use rate_limiter::*;
     }
 
     pub mod two_pointers {
@@ -65,19 +67,31 @@ pub mod medium {
         pub use meeting_rooms::*;
     }
 
+    pub mod hash_map_heap {
+        pub mod top_k_frequent_words;
+        pub use top_k_frequent_words::*;
+    }
+
+    pub mod dfs_tree {
+        pub mod directory_size_calculator;
+        pub use directory_size_calculator::*;
+    }
+
     pub mod graph_dfs {
         pub mod course_schedule;
         pub use course_schedule::*;
     }
 
     // Re-export all medium problems
+    pub use dfs_tree::*;
+    pub use graph_dfs::*;
+    pub use hash_map::*;
+    pub use hash_map_heap::*;
+    pub use heap::*;
+    pub use intervals::*;
     pub use linked_list::*;
     pub use sliding_window::*;
     pub use two_pointers::*;
-    pub use intervals::*;
-    pub use hash_map::*;
-    pub use heap::*;
-    pub use graph_dfs::*;
 }
 
 // Hard Problems
@@ -93,11 +107,11 @@ pub mod hard {
     }
 
     // Re-export all hard problems
-    pub use hash_map_linked_list::*;
     pub use bfs_tree::*;
+    pub use hash_map_linked_list::*;
 }
 
 // Re-export all problems at the top level for backward compatibility
 pub use easy::*;
-pub use medium::*;
 pub use hard::*;
+pub use medium::*;
